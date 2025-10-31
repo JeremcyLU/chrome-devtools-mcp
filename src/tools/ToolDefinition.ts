@@ -42,9 +42,15 @@ export interface ImageContentData {
   mimeType: string;
 }
 
+export interface SnapshotFilterParams {
+  ignoreRoles?: string[];
+  preserveRoles?: string[];
+}
+
 export interface SnapshotParams {
   verbose?: boolean;
   filePath?: string;
+  filter?: SnapshotFilterParams;
 }
 
 export interface Response {

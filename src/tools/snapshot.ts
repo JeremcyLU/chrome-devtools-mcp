@@ -31,11 +31,23 @@ identifier (uid). Always use the latest snapshot. Prefer taking a snapshot over 
       .describe(
         'The absolute path, or a path relative to the current working directory, to save the snapshot to instead of attaching it to the response.',
       ),
+    filter: zod
+      .object({
+        ignoreRoles: zod.array(zod.string()).optional(),
+        preserveRoles: zod.array(zod.string()).optional(),
+      })
+      .optional()
+      .describe(
+        'Specialized filter to include/exclude roles. Default ignores roles: none (aka ignored) and option.',
+      ),
   },
   handler: async (request, response) => {
+    // Only apply filtering when explicitly provided by the caller.
+    const filter = request.params.filter;
     response.includeSnapshot({
       verbose: request.params.verbose ?? false,
       filePath: request.params.filePath,
+      filter,
     });
   },
 });
